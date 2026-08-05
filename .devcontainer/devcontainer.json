@@ -1,0 +1,53 @@
+{
+  "name": "Spring Boot + Spring AI",
+
+  "image": "mcr.microsoft.com/devcontainers/java:1-21-bookworm",
+
+  "features": {
+    "ghcr.io/devcontainers/features/docker-outside-of-docker:1": {}
+  },
+
+  "forwardPorts": [8080],
+
+  "portsAttributes": {
+    "8080": {
+      "label": "Spring Boot API",
+      "onAutoForward": "notify"
+    }
+  },
+
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "vscjava.vscode-java-pack",
+        "vmware.vscode-spring-boot",
+        "vscjava.vscode-spring-initializr",
+        "vscjava.vscode-spring-boot-dashboard",
+        "redhat.vscode-yaml",
+        "humao.rest-client",
+        "eamodio.gitlens"
+      ],
+
+      "settings": {
+        "java.configuration.updateBuildConfiguration": "automatic",
+        "java.compile.nullAnalysis.mode": "automatic",
+        "editor.formatOnSave": true,
+        "files.exclude": {
+          "**/target": true
+        }
+      }
+    }
+  },
+
+  "postCreateCommand": "chmod +x mvnw && ./mvnw -q -DskipTests compile",
+
+  "remoteEnv": {
+    "SPRING_PROFILES_ACTIVE": "dev"
+  },
+
+  "secrets": {
+    "SPRING_AI_OPENAI_API_KEY": {
+      "description": "Clé API utilisée par Spring AI"
+    }
+  }
+}
