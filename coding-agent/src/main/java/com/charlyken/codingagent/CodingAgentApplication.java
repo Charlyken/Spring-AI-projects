@@ -19,7 +19,8 @@ public class CodingAgentApplication {
 			ChatClient client = builder.build();
 
 			String response = client.prompt()
-			       .user("Eplique simplement ce qu'est une injection de dependance")
+		           .system("Tu es un expert Java")
+			       .user("Eplique simplement ce qu'est une injection de dependance, je veux une réponse courte")
 				   .call()
 				   .content();
 			
