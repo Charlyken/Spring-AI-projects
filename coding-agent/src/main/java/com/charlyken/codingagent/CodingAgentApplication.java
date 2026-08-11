@@ -1,13 +1,18 @@
 package com.charlyken.codingagent;
 
 import java.util.Map;
+import java.util.Scanner;
 
-import org.springaicommunity.agent.tools.*;
+import org.springaicommunity.agent.tools.FileSystemTools;
+import org.springaicommunity.agent.tools.GlobTool;
+import org.springaicommunity.agent.tools.GrepTool;
+import org.springaicommunity.agent.tools.ShellTools;
 import org.springframework.ai.chat.client.ChatClient;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+
 import reactor.core.publisher.Flux;
 
 @SpringBootApplication
@@ -39,19 +44,38 @@ public class CodingAgentApplication {
 			)
 			.build();
 
-			Flux<String> response = client.prompt()
-			    .system("Tu es un expert du developpement logiciel")
-				.user("Analyse la structure actuelle du projet et fais moi un feedback detaillé max 800 Tokens")
-				.toolContext(Map.of("workingDirectory", workingDirectory))
-				.stream()
-				.content();
-			
-			response
-			    .doOnNext(System.out::print)
-				.blockLast();
-			
-				System.out.println();
+			try (Scanner sc = new Scanner(System.in)) { 
+				System.out.println("Agent prêt. Ecris exit pour quitter.");
+
+				while (true) {
+					System.out.println("> ");
+					String input = sc.nextLine();
+
+					if ("exit".equalsIgnoreCase(input)){
+						break;
+					}
+
+					try {
+						Flux<String> response = client.prompt()
+							.system("Tu es un expert du developpement logiciel")
+							.user(input)
+							.toolContext(Map.of("workingDirectory", workingDirectory))
+							.stream()
+							.content();
+					
+					   response
+							.doOnNext(System.out::print)
+							.blockLast();
 				
+			
+					System.out.println();
+					} catch (Exception e) {
+						System.err.println("Erreur: " + e.getMessage());
+					}
+				}
+
+		    }		
+					
 		};
 	}
 
