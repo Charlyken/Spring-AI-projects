@@ -32,7 +32,7 @@ public class CodingAgentApplication {
 			String workingDirectory = System.getProperty("user.dir");
 
 			ChatMemory chatMemory = MessageWindowChatMemory.builder()
-					.maxMessages(150)
+					.maxMessages(15)
 					.build();
 
 			ChatClient client = builder
@@ -73,6 +73,7 @@ public class CodingAgentApplication {
 					try {
 						Flux<String> response = client.prompt()
 								.user(input)
+								.advisors(a -> a.param(ChatMemory.CONVERSATION_ID, "conversation-id"))
 								.toolContext(Map.of("workingDirectory", workingDirectory))
 								.stream()
 								.content();
