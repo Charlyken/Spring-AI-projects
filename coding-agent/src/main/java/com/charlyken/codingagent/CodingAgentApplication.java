@@ -28,12 +28,12 @@ public class CodingAgentApplication {
 
 	@Bean
 	CommandLineRunner commandLineRunner(ChatClient.Builder builder) {
-		return args -> {
+		return (var args) -> {
 			String workingDirectory = System.getProperty("user.dir");
 
 			ChatMemory chatMemory = MessageWindowChatMemory.builder()
 					.maxMessages(15)
-					.build();
+					.build(); 
 
 			ChatClient client = builder
 					.defaultSystem("""
