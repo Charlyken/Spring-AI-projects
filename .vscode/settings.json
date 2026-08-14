@@ -4,5 +4,12 @@
     "editor.formatOnSave": true, 
     "[java]": {
     "editor.defaultFormatter": "redhat.java"
-  }
+  },
+  "editor.quickSuggestions": {
+    "other": true,
+    "comments": false,
+    "strings": false
+  },
+  "editor.suggestOnTriggerCharacters": true,
+  "editor.inlineSuggest.enabled": false
 }
